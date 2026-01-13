@@ -35,7 +35,7 @@ class _HomeShellState extends State<HomeShell> {
       label: 'Log',
       icon: Icons.camera_alt_outlined,
       selectedIcon: Icons.camera_alt,
-      child: _PlaceholderScreen(title: 'Log'),
+      child: _LogScreen(),
     ),
     const _TabConfig(
       label: 'Check',
@@ -117,6 +117,37 @@ class _PlaceholderScreen extends StatelessWidget {
           Text(
             'Placeholder content.',
             style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LogScreen extends StatelessWidget {
+  const _LogScreen();
+
+  Future<void> _takePicture() async {
+    // Implementation will go here
+  }
+
+  Future<void> _selectFromGallery() async {
+    // Implementation will go here
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: _takePicture,
+            child: const Text('Take Picture'),
+          ),
+          ElevatedButton(
+            onPressed: _selectFromGallery,
+            child: const Text('Select from Gallery'),
           ),
         ],
       ),
