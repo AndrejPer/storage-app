@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() {
   runApp(const MyApp());
@@ -124,15 +127,35 @@ class _PlaceholderScreen extends StatelessWidget {
   }
 }
 
-class _LogScreen extends StatelessWidget {
+class _LogScreen extends StatefulWidget {
   const _LogScreen();
+
+  @override
+  State<_LogScreen> createState() => _LogScreenState();
+}
+
+class _LogScreenState extends State<_LogScreen> {
+  XFile? pickedFile;
+  final ImagePicker picker = ImagePicker();
 
   Future<void> _takePicture() async {
     // Implementation will go here
   }
 
   Future<void> _selectFromGallery() async {
-    // Implementation will go here
+    final file = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      pickedFile = file;
+    });
+
+    if (pickedFile == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('No image selected yet.')));
+    } else {
+      // File imageFile = File(pickedFile!.path);
+      // Use the image file as needed
+    }
   }
 
   @override
@@ -141,6 +164,18 @@ class _LogScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          if (pickedFile != null)
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Image.file(File(pickedFile!.path), fit: BoxFit.contain),
+              ),
+            )
+          else
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text('No image selected'),
+            ),
           ElevatedButton(
             onPressed: _takePicture,
             child: const Text('Take Picture'),
